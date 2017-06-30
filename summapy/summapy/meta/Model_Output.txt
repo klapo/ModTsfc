@@ -1,0 +1,26 @@
+! ---------
+! model variables
+! ---------
+nSnow                     | 1
+nSoil                     | 1
+scalarRainPlusMelt        | 1
+scalarSWE                 | 1
+scalarSnowSublimation     | 1
+scalarInfiltration        | 1
+scalarSurfaceRunoff       | 1
+scalarSnowAlbedo          | 1
+scalarSurfaceTemp         | 1
+scalarSenHeatTotal        | 1
+scalarLatHeatTotal        | 1
+scalarSnowDepth           | 1
+iLayerHeight              | 1
+iLayerLiqFluxSoil         | 1
+iLayerThermalC            | 1
+iLayerConductiveFlux      | 1
+mLayerTemp                | 1
+mLayerDepth               | 1
+mLayerVolFracIce          | 1
+mLayerVolFracLiq          | 1
+mLayerVolHtCapBulk        | 1
+mLayerVolFracAir          | 1
+mLayerThermalC            | 1

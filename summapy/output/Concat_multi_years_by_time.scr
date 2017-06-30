@@ -1,0 +1,45 @@
+#!/bin/tcsh
+
+# User Input
+set RS = $1 # Run start number
+set SITE = $2 # Site ID (i.e. SNQ)
+set expname = $3 # Experiment name
+
+
+echo Processing Run $RS
+
+# User Define path to SUMMA output
+set Basedir = /home/wayandn/summa/output/
+# Assumes output is structured in output/Sitename/R_[Run number here]/
+set Curdir  = $Basedir$SITE/indiv_runs/R_$RS/
+echo $Curdir
+
+# Ignores all spin up files
+cd $Curdir
+set files2concat = `ls --ignore='*spinup*' --ignore='*.txt'`
+
+echo $files2concat
+
+echo Done adding records for all netcdf files 
+echo $files2concat
+
+# Make folder (if needed) for combined output file
+mkdir -p $Basedir$SITE'/'$expname
+
+# Combine all files
+ncrcat --64 -O -h $files2concat $Basedir$SITE'/'$expname'/'$SITE'_combined_'$expname'_time_dim.nc'
+
+echo Done Merging restart files together
+echo Now changing record dimension from time to param
+
+ncecat -O -u param  $Basedir$SITE'/'$expname'/'$SITE'_combined_'$expname'_time_dim.nc' $Basedir$SITE'/'$expname'/temp1.nc'
+echo added new dimension param
+
+# Make it the record dimension
+ncks -O --mk_rec_dmn param $Basedir$SITE'/'$expname'/temp1.nc' $Basedir$SITE'/'$expname'/'$SITE'_combined_'$expname'.nc'
+echo made param the record dimension
+
+
+# Clean up
+rm -f $Basedir$SITE'/'$expname'/temp1.nc'
+rm -f $Basedir$SITE'/'$expname'/'$SITE'_combined_'$expname'_time_dim.nc'
